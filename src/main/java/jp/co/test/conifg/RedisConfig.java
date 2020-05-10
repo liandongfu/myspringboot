@@ -1,5 +1,6 @@
 package jp.co.test.conifg;
 
+import jp.co.test.domin.RedisData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,4 +19,9 @@ public class RedisConfig {
         return new StringRedisTemplate(redisConnectionFactory);
     }
 
+    @Bean
+    ObjectRedisTemplate<RedisData> redisTemplate() {
+        ObjectRedisTemplate<RedisData> redisTemplate = new ObjectRedisTemplate(redisConnectionFactory, RedisData.class);
+        return redisTemplate;
+    }
 }
