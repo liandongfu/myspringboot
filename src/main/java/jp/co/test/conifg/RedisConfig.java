@@ -20,7 +20,7 @@ public class RedisConfig {
     }
 
     @Bean
-    ObjectRedisTemplate<RedisData> redisTemplate() {
+    ObjectRedisTemplate<RedisData> testDataRedisTemplate() {
         ObjectRedisTemplate<RedisData> redisTemplate = new ObjectRedisTemplate(redisConnectionFactory, RedisData.class);
         return redisTemplate;
     }
