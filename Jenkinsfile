@@ -10,8 +10,10 @@ pipeline {
             steps {
                 bat './gradlew clean test --no-daemon'
             }
-            post always {
-                junit '**/build/test-results/test/*.xml'
+            post {
+                always {
+                    junit '**/build/test-results/test/*.xml'
+                }
             }
         }
         stage('deploy') {
@@ -21,9 +23,11 @@ pipeline {
             }
         }
 
-        post always {
-            steps {
-                archiveArtifacts artifacts: '*/**', followSymlinks: false
+        post {
+            always {
+                steps {
+                    archiveArtifacts artifacts: '*/**', followSymlinks: false
+                }
             }
         }
     }
