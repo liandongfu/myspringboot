@@ -22,12 +22,11 @@ pipeline {
                 bat 'docker run --name myspringboot -p 9090:9090  myspringboot:1.0'
             }
         }
-
-        post {
-            always {
-                steps {
-                    archiveArtifacts artifacts: '*/**', followSymlinks: false
-                }
+    }
+    post {
+        always {
+            steps {
+                archiveArtifacts artifacts: '*/**', followSymlinks: false
             }
         }
     }
