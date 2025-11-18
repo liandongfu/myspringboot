@@ -27,7 +27,9 @@ pipeline {
                 expression { BUILD_TOOL == 'maven' }
             }
             steps {
-                sh 'mvn clean test'
+                withMaven(maven: 'Maven 3.9.11', jdk: 'JDK 21') {
+                    sh 'mvn -B clean test'
+                }
             }
             post {
                 always {
@@ -55,7 +57,9 @@ pipeline {
                 expression { BUILD_TOOL == 'maven' }
             }
             steps {
-                sh 'mvn package -DskipTests'
+                withMaven(maven: 'Maven 3.9.11', jdk: 'JDK 21') {
+                    sh 'mvn -B package -DskipTests'
+                }
             }
         }
         
