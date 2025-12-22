@@ -89,12 +89,12 @@ pipeline {
         }
     }
     
-    post {
-        success {
-            archiveArtifacts artifacts: '**/target/*.jar, **/build/libs/*.jar', fingerprint: true, allowEmptyArchive: true
-        }
-        always {
-            cleanWs()
-        }
-    }
+    // post {
+    //     success {
+    //         archiveArtifacts artifacts: '**/target/*.jar, **/build/libs/*.jar', fingerprint: true, allowEmptyArchive: true
+    //     }
+    //     always {
+    //         cleanWs()
+    //     }
+    // }
 }
