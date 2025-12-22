@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Source') {
             steps {
-                git 'https://github.com/liandongfu/myspringboot.git'
+                checkout scm
             }
         }
         

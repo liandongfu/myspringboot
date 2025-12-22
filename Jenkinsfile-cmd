@@ -1,0 +1,73 @@
+properties([
+    parameters([
+        choice(name: 'BUILD_TOOL', choices: ['maven', 'gradle'], description: 'Select build tool')
+    ])
+])
+
+node {
+    def buildTool = params.BUILD_TOOL ?: 'maven'
+    
+    // 设置环境变量
+    env.MAVEN_OPTS = '-Xmx1024m'
+    
+    // 配置工具
+    def mvnHome = tool name: 'Maven 3.9.11', type: 'maven'
+    def javaHome = tool name: 'JDK 21', type: 'jdk'
+    env.PATH = "${javaHome}/bin:${mvnHome}/bin:${env.PATH}"
+    
+    try {
+        stage('Source') {
+           dir('/Users/liandongfu/develop/cicd-script-test') {
+            checkout scm
+           }
+        }
+        
+        // if (buildtool == 'maven') {
+        //     stage('build & test - maven') {
+        //         try {
+        //             sh 'mvn -b clean test'
+        //         } finally {
+        //             junit allowemptyresults: true, testresults: '**/target/surefire-reports/*.xml'
+        //         }
+        //     }
+            
+        //     stage('package - maven') {
+        //         sh 'mvn -b package -dskiptests'
+        //     }
+        // } else {
+        //     stage('build & test - gradle') {
+        //         try {
+        //             sh './gradlew clean test --no-daemon'
+        //         } finally {
+        //             junit allowemptyresults: true, testresults: '**/build/test-results/test/*.xml'
+        //         }
+        //     }
+            
+        //     stage('package - gradle') {
+        //         sh './gradlew build -x test'
+        //     }
+        // }
+        
+        /* stage('Docker Build') {
+            sh 'docker build -t myspringboot:1.0 .'
+        }
+        
+        stage('Deploy') {
+            sh '''
+                docker stop myspringboot || true
+                docker rm myspringboot || true
+                docker run -d --name myspringboot -p 9090:9090 myspringboot:1.0
+            '''
+        } */
+        
+        // 成功后的操作
+        // archiveArtifacts artifacts: '**/target/*.jar, **/build/libs/*.jar', fingerprint: true, allowEmptyArchive: true
+        
+    } catch (Exception e) {
+        currentBuild.result = 'FAILURE'
+        throw e
+    } finally {
+        // 清理工作空间
+        // cleanWs()
+    }
+}
