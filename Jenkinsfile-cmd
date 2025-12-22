@@ -16,10 +16,9 @@ node {
     env.PATH = "${javaHome}/bin:${mvnHome}/bin:${env.PATH}"
     
     try {
-        stage('Source') {
-           dir('/Users/liandongfu/develop/cicd-script-test') {
-            checkout scm
-           }
+        stage('Test') {
+            sh  'printenv'
+            sh  'echo scm branch name ' + scm.branches[0].name
         }
         
         // if (buildtool == 'maven') {
