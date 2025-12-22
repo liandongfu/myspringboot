@@ -16,9 +16,28 @@ node {
     env.PATH = "${javaHome}/bin:${mvnHome}/bin:${env.PATH}"
     
     try {
-        stage('Test') {
-            sh  'printenv'
-            sh  'echo scm branch name ' + scm.branches[0].name
+        stage('Source') {
+            // 从 SCM 配置中获取仓库 URL 和分支名
+            def gitUrl = scm.userRemoteConfigs[0].url
+            def branchName = scm.branches[0].name
+            
+            // 清理分支名称，移除 "*/" 或 "origin/" 前缀
+            branchName = branchName.replaceAll(/^\*\//, '').replaceAll(/^origin\//, '')
+            
+            echo "Git URL: ${gitUrl}"
+            echo "Branch: ${branchName}"
+            
+            // 使用 git clone
+            sh """
+                rm -rf myspringboot
+                git clone -b ${branchName} ${gitUrl} myspringboot
+            """
+            
+            // 切换到克隆的目录
+            dir('myspringboot') {
+                sh 'pwd'
+                sh 'git branch'
+            }
         }
         
         // if (buildtool == 'maven') {
