@@ -18,8 +18,8 @@ node {
     try {
         stage('Source') {
             // 从 SCM 配置中获取仓库 URL 和分支名
-            def gitUrl = scm.userRemoteConfigs[0].url
-            def branchName = scm.branches[0].name
+            def gitUrl = scm?.userRemoteConfigs?.getAt(0)?.url ?: 'https://github.com/your-repo/myspringboot.git'
+            def branchName = scm?.branches?.getAt(0)?.name ?: 'main'
             
             // 清理分支名称，移除 "*/" 或 "origin/" 前缀
             branchName = branchName.replaceAll(/^\*\//, '').replaceAll(/^origin\//, '')

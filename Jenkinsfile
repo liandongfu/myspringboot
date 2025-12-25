@@ -16,11 +16,11 @@ pipeline {
     }
     
     stages {
-        // stage('Source') {
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
+        stage('Source') {
+            steps {
+                checkout scm
+            }
+        }
         
         stage('Build & Test - Maven') {
             when {
